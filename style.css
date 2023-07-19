@@ -1,9 +1,9 @@
 .bodyContain {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #FEFAEF;
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 94vh;
+    min-height: 100vh;
 }
 
 .question-footer {
@@ -21,9 +21,15 @@
     width: 35rem;
 }
 
+.quiz-answer-card {
+    display: flex;
+    justify-content: flex-start;
+   
+}
+
 .quiz-answer-card:hover {
     cursor: pointer;
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: rgba(0, 0, 0, 0.025);
 }
 
 .bg-success, .bg-danger {
@@ -32,7 +38,7 @@
 
 .mb-3 {
     margin-top: 1rem;
-    margin-right: 1rem;
+    margin-right: 1rem !important;
 }
 
 .card-body img {
@@ -43,6 +49,15 @@
 .card-body {
     margin-bottom: 1rem;
 }
+
+.cardBody {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 3rem;
+}
+
 .endCardButton {
     display: flex;
     flex-direction: column;
@@ -54,4 +69,125 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
+    width: 18rem;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.col-md-4 {
+    background-color: #27355C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    padding-bottom: 3rem;
+   
+}
+
+.img-fluid {
+    height: 60px !important;
+}
+
+.mb-3 {
+    margin-right: 0;
+    margin-left: 1rem;
+}
+
+.link-opacity-10-hover {
+    text-decoration: none;
+    color: white;
+}
+
+.quiz-card {
+    width: 60rem;
+}
+
+.row {
+    background-color: rgba(0, 0, 0, 0.025);
+}
+
+.links {
+    margin-top: 5rem;
+    width: 120px;
+}
+
+.width {
+    width: 130px;
+}
+
+.link:hover {
+    padding-left: 10px;
+}
+
+.progress-bar {
+    background-color: #27355C !important;
+}
+
+.link {
+    font-size: 24px;
+    margin-left: 15px;
+}
+
+.logo {
+    margin-top: 1rem;
+}
+
+.startScreen {
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.col-md-8 {
+    background-image: url("img/brainbg.jpg");
+    background-repeat: no-repeat;
+    object-fit: contain;
+    background-position: center;
+    background-size: contain;
+    position: relative;
+   
+}
+
+.button {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-around;
+    width: 10rem;
+    color: white !important;
+    position: absolute;
+    right: 50px;
+    bottom: 50px;
+
+}
+
+.button img {
+    height: 10px;
+}
+
+.card-title {
+    margin-bottom: 1rem !important;
+    margin-top: 1rem !important;
+    text-align: center;
+}
+
+.card-text {
+    font-weight: bold;
+    color: orange;
+}
+
+.share {
+    width: 10rem;
+}
+
+.card-body {
+    margin-bottom: 0;
+}
+
+.startText {
+    text-align: center; 
+    margin-top: 50px;
+    font-weight: bold;
 }

@@ -35,10 +35,11 @@ let questions = [
 
 let rightQuestions = 0;
 let currentQuestions = 0;
+let AUDIO_SUCCESS = new Audio('audio/success.mp3');
+let AUDIO_DEFAULT = new Audio('audio/default.mp3');
 
 function init() {
     allNumberOfQuestions();
-
 }
 
 function allNumberOfQuestions() {
@@ -49,50 +50,87 @@ function allNumberOfQuestions() {
 
 function showQuestion() {
 
-    if (currentQuestions >= questions.length) {
-        //TODO: Show End Screen
-        document.getElementById('endScreen').style = '';
-        document.getElementById('main-card').style = 'display:none;';
-
-        document.getElementById('all-currentNumber1').innerHTML = questions.length;
-        document.getElementById('addRightQuestion').innerHTML = rightQuestions;
+    if (gameIsOver()) {
+        showEndScreen();
     } else {
-        let percent = (currentQuestions + 1) / questions.length;
-        percent = Math.round(percent * 100);
-        document.getElementById('progress-bar').innerHTML = `${percent}%`;
-        document.getElementById('progress-bar').style = `width: ${percent}%;`;
-
-
-        let question = questions[currentQuestions];
-        document.getElementById('current-number').innerHTML = currentQuestions + 1;
-        document.getElementById('questionText').innerHTML = question['question'];
-        document.getElementById('answer_1').innerHTML = question['answer_1'];
-        document.getElementById('answer_2').innerHTML = question['answer_2'];
-        document.getElementById('answer_3').innerHTML = question['answer_3'];
-        document.getElementById('answer_4').innerHTML = question['answer_4'];
+        updateToProgressBar();
+        loadToNextQuestion();
     }
+}
+
+function showEndScreen() {
+    document.getElementById('endScreen').style = '';
+    document.getElementById('progressBar').style = 'display:none;';
+    document.getElementById('main-card').style = 'display:none;';
+    document.getElementById('all-currentNumber1').innerHTML = questions.length;
+    document.getElementById('addRightQuestion').innerHTML = rightQuestions;
+}
+
+function updateToProgressBar() {
+    let percent = (currentQuestions) / questions.length;
+    percent = Math.round(percent * 100);
+    document.getElementById('progress-bar').innerHTML = `${percent}%`;
+    document.getElementById('progress-bar').style = `width: ${percent}%;`;
+}
+
+function loadToNextQuestion() {
+    let question = questions[currentQuestions];
+    document.getElementById('current-number').innerHTML = currentQuestions + 1;
+    document.getElementById('questionText').innerHTML = question['question'];
+    document.getElementById('answer_1').innerHTML = question['answer_1'];
+    document.getElementById('answer_2').innerHTML = question['answer_2'];
+    document.getElementById('answer_3').innerHTML = question['answer_3'];
+    document.getElementById('answer_4').innerHTML = question['answer_4'];
+}
+
+function gameIsOver() {
+    return currentQuestions >= questions.length;
 }
 
 function answer(selection) {
-    let question = questions[currentQuestions];// hier wird abgefragt in welcher Frage wir uns befinden!
-    console.log('Selected answer is', selection); // hier wird die die Nummer der Frage abgefragt! In dem Fall ist das die Erste Frage
-    let selectedQuestionNumber = selection.slice(-1);// hier wird die Nummer der Anwort abefragt (z.B. die Anwort answer_1 = 1)
-    console.log('selectedQuestionNumber is', selectedQuestionNumber); //hier wird die Zahl von der Antwort angezeigt (z.B. answer_1 = 1)
-    console.log('Current question is', question['right_answer']);
+    let question = questions[currentQuestions];
+    // hier wird abgefragt in welcher Frage wir uns befinden!
+    let selectedQuestionNumber = selection.slice(-1);
+    // hier wird die Nummer der Anwort abefragt (z.B. die Anwort answer_1 = 1)
+    let idOfRightAnswer = `answer_${question['right_answer']}`;
+    // mit der Variablen wird festgelegt die Richtige Antwort
 
-    let idOfRightAnswer = `answer_${question['right_answer']}`; // mit der Variablen wird festgelegt die Richtige Antwort
+    if (document.querySelector('.selected-answer')) {
+        return;
+    }
 
-    if (selectedQuestionNumber == question['right_answer']) { // in der Abfrage wird verglichen ob die Angeklickte Anwort mit der Richtigen Anwort übereinstimmt
-        console.log('Richtige Antwort!!!'); // wenn die Angeklickte Antwort übereinstimmt dann wird in der Console "Richtige Antwort" ausgegeben!
-        document.getElementById(selection).parentNode.classList.add('bg-success');
-        rightQuestions++;// hier wird die Anzahl der Richtigen Antworten in den Array der Richtigen Antworten gepusht
+    if (rightToQuestion(selectedQuestionNumber, question)) {
+        // in der Abfrage wird verglichen ob die Angeklickte Anwort mit der Richtigen Anwort übereinstimmt
+        successToQuestion(selection);
     } else {
-        console.log('Falsche Antwort!!!');// wenn die Angeklickte Anwort nicht übereinstimmt mit der Richtigen Anwort dann wird in der Console "Falsche Antwort" ausgegeben!
-        document.getElementById(selection).parentNode.classList.add('bg-danger'); //Bei falschen Antwort wird die Antwort Rot dargestellt
-        document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success'); //wenn auf die Falsche Antwort geklickt worden ist wird automatisch die Richtige Antwort angezeigt
+        fauilToQuestion(idOfRightAnswer, selection);
     }
     document.getElementById('next-button').disabled = false;
 }
+
+function rightToQuestion(selectedQuestionNumber, question) {
+    return selectedQuestionNumber == question['right_answer']
+}
+
+function successToQuestion(selection) {
+    document.getElementById(selection).parentNode.classList.add('bg-success');
+    //die richtige Anwort mit einem Grünen Banner markiert
+    AUDIO_SUCCESS.play();
+    rightQuestions++;
+    // hier wird die Anzahl der Richtigen Antworten in den Array der Richtigen Antworten gepusht
+    document.getElementById(selection).classList.add('selected-answer');
+}
+
+function fauilToQuestion(idOfRightAnswer, selection) {
+    document.getElementById(selection).parentNode.classList.add('bg-danger');
+    //Bei falschen Antwort wird die Antwort Rot dargestellt
+    document.getElementById(idOfRightAnswer).parentNode.classList.add('bg-success');
+    //wenn auf die Falsche Antwort geklickt worden ist wird automatisch die Richtige Antwort angezeigt
+    AUDIO_DEFAULT.play();
+    //gibt den Sound raus beim anklicken auf eine falsche Antwort
+    document.getElementById(selection).classList.add('selected-answer');
+}
+
 
 function nextQuestion() {
     currentQuestions++;
@@ -103,21 +141,28 @@ function nextQuestion() {
 }
 
 function resetAnswerButton() {
-    document.getElementById('answer_1').parentNode.classList.remove('bg-danger');
-    document.getElementById('answer_1').parentNode.classList.remove('bg-success');
-    document.getElementById('answer_2').parentNode.classList.remove('bg-danger');
-    document.getElementById('answer_2').parentNode.classList.remove('bg-success');
-    document.getElementById('answer_3').parentNode.classList.remove('bg-danger');
-    document.getElementById('answer_3').parentNode.classList.remove('bg-success');
-    document.getElementById('answer_4').parentNode.classList.remove('bg-danger');
-    document.getElementById('answer_4').parentNode.classList.remove('bg-success');
+    document.querySelectorAll('.selected-answer').forEach(button => {
+        button.classList.remove('selected-answer');
+        button.parentNode.classList.remove('bg-success');
+    });
+
+    for (let i = 1; i <= 4; i++) {
+        document.getElementById(`answer_${i}`).parentNode.classList.remove('bg-danger');
+        document.getElementById(`answer_${i}`).parentNode.classList.remove('bg-success');
+    }
 }
 
 function restartGame() {
     currentQuestions = 0;
     rightQuestions = 0;
-    document.getElementById('main-card').style = '';
+    document.getElementById('main-card').style = 'display:none;';
     document.getElementById('endScreen').style = 'display:none;';
+    document.getElementById('startScreen').style = '';
     init();
+}
 
+function startQuiz() {
+    document.getElementById('startScreen').style = 'display: none;';
+    document.getElementById('main-card').style = '';
+    document.getElementById('progressBar').style = '';
 }

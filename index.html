@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="media.css">
     <script src="script.js"></script>
 
     <!-- Bootstrap file -->
@@ -17,24 +18,35 @@
 </head>
 
 <body onload="init()">
-    <div class="progress" role="progressbar" aria-label="Example with label">
+    <div class="progress" role="progressbar" aria-label="Example with label" style="display: none;" id="progressBar">
         <div class="progress-bar" id="progress-bar" style="width: 25%">25%</div>
     </div>
-    <nav class="navbar bg-body-tertiary">
-        <div class="container-fluid">
-            <span class="navbar-brand mb-0 h1">Quizapp</span>
-        </div>
-    </nav>
 
     <div class="bodyContain">
         <div class="card mb-3 quiz-card">
-            <div class="row g-0">
+            <div class="row g-0 cardContain">
                 <div class="col-md-4">
-                    <img src="img/logo.png" class="img-fluid rounded-start" alt="...">
+                    <div class="logo">
+                        <img src="img/logo.png" class="img-fluid rounded-start" alt="...">
+                    </div>
+                    <div class="links">
+                        <div class="width link">
+                            <p><a class="link-opacity-10-hover" href="#">HTML</a></p>
+                        </div>
+                        <div class="width link">
+                            <p><a class="link-opacity-10-hover" href="#">CSS</a></p>
+                        </div>
+                        <div class="width link">
+                            <p><a class="link-opacity-10-hover" href="#">JS</a></p>
+                        </div>
+                        <div class="width link">
+                            <p><a class="link-opacity-10-hover" href="#">Java</a></p>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md-8">
-                    <div id="main-card">
-                        <div class="card-body" >
+                    <div id="main-card" style="display: none;">
+                        <div class="card-body">
                             <h5 class="card-title" id="questionText"></h5>
                             <div class="card quiz-answer-card m-2" onclick="answer('answer_1')">
                                 <div class="card-body" id="answer_1">
@@ -65,19 +77,28 @@
                                 disabled>nächste Frage</button>
                         </div>
                     </div>
-                    <div id="endScreen" class="card text-center mb-3" style="width: 18rem; display: none;">
-                        <div class="card-body">
+                    <div id="endScreen" style="width: 18rem; display: none;">
+                        <div class="card-body cardBody">
                             <img src="img/brain result.png" alt="">
                             <h5 class="card-title"><b>COMPLETE <br> HTML QUIZ</b></h5>
                             <div class="display">
-                                <p class="card-text">YOUR SCOUR</p>
-                                <p><b id="addRightQuestion"></b>/<b id="all-currentNumber1"></b></p>
+                                <p class="card-text">YOUR SCOUR </p>
+                                <p> <b id="addRightQuestion"></b>/<b id="all-currentNumber1"></b></p>
                             </div>
                             <div class="endCardButton">
-                                <a href="#" class="btn btn-primary">SHARE</a>
-                                <button onclick="restartGame()" type="button" class="btn">REPLAY</button>
+                                <a href="#" class="btn btn-primary share">SHARE</a>
+                                <button onclick="restartGame()" type="button" class="btn" style="color:blue;">REPLAY</button>
                             </div>
                         </div>
+                    </div>
+
+                    <div id="startScreen" class="startScreen">
+                        <h5 class="startText">Welcome to <br>The Awesome HTML Quiz</h5>
+                        <p>Ready for the Challenge</p>
+                        <button type="button" class="btn btn-warning button"
+                            onclick="startQuiz()">START NOW <img src="icon/right.svg"></button>
+
+
                     </div>
                 </div>
             </div>
